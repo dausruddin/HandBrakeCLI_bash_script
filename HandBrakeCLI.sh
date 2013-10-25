@@ -1,19 +1,20 @@
 #!/bin/bash
 
 # Your configuration stuff should go here - replace these with whatever you want
-SRC="/SOURCE_FOLDER_HERE" #source folder without / at the end
-DEST="/DESTINATION_FOLDER_HERE" #destination folder without / at the end
-DEST_EXT=mp4 #destination video format
-HANDBRAKE_CLI=HandBrakeCLI #handbrake application
+SRC="/home/rmw/public_html/filex/store/vids/toriko/tor"
+DEST="/home/rmw/public_html/filex/store/vids/toriko/tori"
+DEST_EXT=mp4
+HANDBRAKE_CLI=HandBrakeCLI
 PRESET="iPhone & iPod Touch"
 
 # The meat of the script
-for FILE in "`ls $SRC`"
+for FILE in "$SRC"/*
 do
-filename=$(basename $FILE)
+
+filename="$(basename "$FILE")"
 extension=${filename##*.}
 filename=${filename%.*}
 
-$HANDBRAKE_CLI -i "$SRC"/$FILE -o "$DEST"/"$filename".$DEST_EXT "$PRESET"
+$HANDBRAKE_CLI -i "$FILE" -o "$DEST"/"$filename".$DEST_EXT -q 25 -r 23.976 -e x264 --x264-tune animation -E faac -R 48 -Y 480 --ab 93 -O
 
 done
